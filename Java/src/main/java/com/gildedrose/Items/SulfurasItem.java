@@ -5,6 +5,7 @@ import com.gildedrose.Item;
 public class SulfurasItem extends NormalItem {
     public SulfurasItem(Item item) {
         super(item);
+        this.setQuality(80);
     }
 
     @Override
