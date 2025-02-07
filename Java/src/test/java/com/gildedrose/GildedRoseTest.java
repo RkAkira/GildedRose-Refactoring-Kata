@@ -15,10 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class GildedRoseTest {
 
-    @Test
-    void shouldDecreaseBy2NormalItemQualityWhenSellInisPassed(){
+    private static final String NORMAL_ITEM_NAME = "foo";
+    private static final String AGED_BRIE_NAME = "Aged Brie";
+    private static final String BACKSTAGE_PASS_NAME = "Backstage passes to a TAFKAL80ETC concert";
+    private static final String SULFURAS_NAME = "Sulfuras, Hand of Ragnaros";
 
-        List<NormalItem> items = Collections.singletonList(new NormalItem(new Item("foo", 0, 15)));
+    @Test
+    void shouldDecreaseBy2NormalItemQualityAfterExpirationDay() {
+
+        List<NormalItem> items = Collections.singletonList(new NormalItem(new Item(NORMAL_ITEM_NAME, NormalItem.EXPIRATION_DAY, 15)));
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -26,8 +31,8 @@ class GildedRoseTest {
         assertEquals(13, app.items.get(0).getQuality(), "Incorrect quality for a normal Item");}
 
     @Test
-    void shouldIncreaseBy2AgedBrieQualityWhenSellInisPassed(){
-        List<NormalItem> items = Collections.singletonList(new AgedBrieItem(new Item("Aged Brie", 0,10)));
+    void shouldIncreaseBy2AgedBrieQualityAfterExpirationDay() {
+        List<NormalItem> items = Collections.singletonList(new AgedBrieItem(new Item(AGED_BRIE_NAME, NormalItem.EXPIRATION_DAY, 10)));
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -40,19 +45,19 @@ class GildedRoseTest {
     @Test
     void shouldNeverSetANormalItemNegativeQuality(){
 
-        List<NormalItem> items = Collections.singletonList(new NormalItem(new Item("foo", 10, 0)));
+        List<NormalItem> items = Collections.singletonList(new NormalItem(new Item(NORMAL_ITEM_NAME, 10, 0)));
 
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
-        assertFalse(app.items.get(0).getQuality()<0, "The quality of a normal item is negative");
+        assertFalse(app.items.get(0).getQuality() < 0, "The quality of a normal item is negative");
     }
 
     @Test
     void shouldIncreaseBy1AgedBrieQuality(){
 
-        List<NormalItem> items = Collections.singletonList(new AgedBrieItem(new Item("Aged Brie", 5,3)));
+        List<NormalItem> items = Collections.singletonList(new AgedBrieItem(new Item(AGED_BRIE_NAME, 5, 3)));
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -61,40 +66,40 @@ class GildedRoseTest {
     }
 
     @Test
-    void shouldNeverHaveQualityOver50(){
+    void shouldBeAbleToSetQualityOverNormalItemMAX_QUALITY() {
 
-        BackStagePassItem backStagePassItem = new BackStagePassItem(new Item("Backstage passes to a TAFKAL80ETC concert", 50,50));
-        AgedBrieItem agedBrieItem = new AgedBrieItem( new Item("Aged Brie", 2,50));
+        BackStagePassItem backStagePassItem = new BackStagePassItem(new Item(BACKSTAGE_PASS_NAME, 50, NormalItem.MAX_QUALITY));
+        AgedBrieItem agedBrieItem = new AgedBrieItem(new Item(AGED_BRIE_NAME, 2, NormalItem.MAX_QUALITY));
 
         List<NormalItem> items = new ArrayList<>();
 
         items.add(backStagePassItem);
         items.add(agedBrieItem);
 
-
-
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        boolean isQualityOver50 = app.items.stream().map(NormalItem::getQuality).anyMatch(q -> q>50);
+        boolean isQualityOverNormalItemMAX_QUALITY = app.items.stream()
+                .map(NormalItem::getQuality)
+                .anyMatch(q -> q > NormalItem.MAX_QUALITY);
 
-        assertFalse(isQualityOver50, "The quality of Aged Brie item is over 50");
+        assertFalse(isQualityOverNormalItemMAX_QUALITY, "The quality of Aged Brie item is over NormalItem.MAX_QUALITY");
     }
 
     @Test
     void shouldNotModifySulfurasQuality(){
 
-        List<NormalItem> items = Collections.singletonList(new SulfurasItem(new Item("Sulfuras, Hand of Ragnaros", 0,80)));
+        List<NormalItem> items = Collections.singletonList(new SulfurasItem(new Item(SULFURAS_NAME, NormalItem.EXPIRATION_DAY, SulfurasItem.SULFURAS_QUALITY)));
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
-        assertEquals(80, app.items.get(0).getQuality(), "Incorrect quality for the Sulfura Item");
+        assertEquals(SulfurasItem.SULFURAS_QUALITY, app.items.get(0).getQuality(), "Incorrect quality for the Sulfura Item");
     }
 
     @Test
-    void shouldSetTo0BackstageQualityAfterSellInIsPassed(){
+    void shouldSetTo0BackstageQualityAfterExpirationDay() {
 
-        List<NormalItem> items = Collections.singletonList(new BackStagePassItem(new Item("Backstage passes to a TAFKAL80ETC concert", 0,4)));
+        List<NormalItem> items = Collections.singletonList(new BackStagePassItem(new Item(BACKSTAGE_PASS_NAME, NormalItem.EXPIRATION_DAY, 4)));
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -105,7 +110,7 @@ class GildedRoseTest {
     @Test
     void shouldIncreaseBackstagePassQualityBy2(){
 
-        List<NormalItem> items = Collections.singletonList(new BackStagePassItem(new Item("Backstage passes to a TAFKAL80ETC concert", 10,5)));
+        List<NormalItem> items = Collections.singletonList(new BackStagePassItem(new Item(BACKSTAGE_PASS_NAME, 10, 5)));
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -116,7 +121,7 @@ class GildedRoseTest {
     @Test
     void shouldIncreaseBackstagePassQualityBy3(){
 
-        List<NormalItem> items = Collections.singletonList(new BackStagePassItem(new Item("Backstage passes to a TAFKAL80ETC concert", 3,4)));
+        List<NormalItem> items = Collections.singletonList(new BackStagePassItem(new Item(BACKSTAGE_PASS_NAME, 3, 4)));
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();

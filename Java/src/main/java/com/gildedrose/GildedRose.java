@@ -16,7 +16,5 @@ public class GildedRose {
             item.manageTimePassing();
             item.updateQuality();
         });
-
     }
-
 }

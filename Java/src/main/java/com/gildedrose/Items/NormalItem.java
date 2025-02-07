@@ -43,8 +43,6 @@ public class NormalItem  {
         return item.sellIn;
     }
 
-
-
     @Override
     public String toString() {
         return item.toString();

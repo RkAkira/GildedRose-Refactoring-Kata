@@ -30,5 +30,4 @@ public class BackStagePassItem extends NormalItem {
         }
         this.setQuality(this.getQuality() + VARIATION_RATE);
     }
-
 }
