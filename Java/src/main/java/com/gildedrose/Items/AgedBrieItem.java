@@ -10,13 +10,13 @@ public class AgedBrieItem extends NormalItem {
 
     @Override
     public void updateQuality() {
-        if (this.getQuality() >= 50) {
+        if (this.getQuality() >= MAX_QUALITY) {
             return;
         }
-        if(this.getSellIn() <= 0){
-            this.setQuality(this.getQuality() + 2);
+        if(this.getSellIn() <= EXPIRATION_DAY){
+            this.setQuality(this.getQuality() + VARIATION_RATE*2);
             return;
         }
-        this.setQuality(this.getQuality() + 1);
+        this.setQuality(this.getQuality() + VARIATION_RATE);
     }
 }

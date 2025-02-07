@@ -1,6 +1,5 @@
 package com.gildedrose;
-import com.gildedrose.GildedRose;
-import com.gildedrose.Item;
+
 import com.gildedrose.Items.AgedBrieItem;
 import com.gildedrose.Items.BackStagePassItem;
 import com.gildedrose.Items.NormalItem;

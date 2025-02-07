@@ -5,26 +5,30 @@ import com.gildedrose.Item;
 public class NormalItem  {
 
     private final Item item;
+    public static final int EXPIRATION_DAY = 0;
+    public static final int MIN_QUALITY = 0;
+    public static final int MAX_QUALITY = 50;
+    public static final int VARIATION_RATE = 1;
 
     public NormalItem(Item item) {
         this.item = item;
     }
 
     public void updateQuality() {
-        if(item.quality >= 50) {
+        if(item.quality >= MAX_QUALITY) {
             return;
         }
-        if(item.sellIn < 0) {
+        if(item.sellIn < EXPIRATION_DAY) {
             decreaseQuality();
         }
         decreaseQuality();
     }
 
     private void decreaseQuality() {
-        if (item.quality <= 0) {
+        if (item.quality <= MIN_QUALITY) {
             return;
         }
-        item.quality  -= 1;
+        item.quality  -= VARIATION_RATE;
     }
 
     public int getQuality(){
@@ -39,9 +43,7 @@ public class NormalItem  {
         return item.sellIn;
     }
 
-    protected void setSellIn(int sellIn) {
-        item.sellIn = sellIn;
-    }
+
 
     @Override
     public String toString() {
@@ -49,6 +51,6 @@ public class NormalItem  {
     }
 
     public void manageTimePassing() {
-        item.sellIn -= 1;
+        item.sellIn -= VARIATION_RATE;
     }
 }

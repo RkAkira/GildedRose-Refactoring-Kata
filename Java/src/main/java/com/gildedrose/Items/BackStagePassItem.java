@@ -4,6 +4,8 @@ import com.gildedrose.Item;
 
 public class BackStagePassItem extends NormalItem {
 
+    public static final int FIRST_CEILING = 11;
+    public static final int SECOND_CEILING = 6;
 
     public BackStagePassItem(Item item) {
         super(item);
@@ -11,26 +13,22 @@ public class BackStagePassItem extends NormalItem {
 
     @Override
     public void updateQuality() {
-        if (this.getQuality() >= 50) {
+        if (this.getQuality() >= MAX_QUALITY) {
             return;
         }
-        if (this.getSellIn() <= 0) {
-            this.setQuality(0);
+        if (this.getSellIn() <= EXPIRATION_DAY) {
+            this.setQuality(MIN_QUALITY);
             return;
         }
-        if (this.getSellIn() < 6) {
-            this.setQuality(this.getQuality() + 3);
+        if (this.getSellIn() < FIRST_CEILING) {
+            if (this.getSellIn() < SECOND_CEILING) {
+                this.setQuality(this.getQuality() + VARIATION_RATE*3);
+                return;
+            }
+            this.setQuality(this.getQuality() + VARIATION_RATE*2);
             return;
         }
-        if (this.getSellIn() < 11) {
-            this.setQuality(this.getQuality() + 2);
-            return;
-        }
-        this.setQuality(this.getQuality() +1);
+        this.setQuality(this.getQuality() + VARIATION_RATE);
     }
 
-    @Override
-    public String toString() {
-        return "BackStagePassItem{}";
-    }
 }

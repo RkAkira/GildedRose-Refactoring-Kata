@@ -1,9 +1,6 @@
 package com.gildedrose;
 
-import com.gildedrose.Items.AgedBrieItem;
-import com.gildedrose.Items.BackStagePassItem;
 import com.gildedrose.Items.NormalItem;
-import com.gildedrose.Items.SulfurasItem;
 
 import java.util.List;
 
