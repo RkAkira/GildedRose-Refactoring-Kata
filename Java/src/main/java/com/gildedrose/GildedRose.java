@@ -8,45 +8,36 @@ import com.gildedrose.Items.SulfurasItem;
 public class GildedRose {
     public Item[] items;
 
+
     public GildedRose(Item[] items) {
         this.items = items;
     }
 
     public void updateQuality() {
         for (Item item : items) {
-            manageTimePassing(item);
-            updateItemQuality(item);
+            NormalItem normalItem = castToNormalItem(item);
+            normalItem.manageTimePassing();
+            normalItem.updateQuality();
         }
     }
 
-    public void updateItemQuality(Item item) {
+
+    public NormalItem castToNormalItem(Item item) {
+        NormalItem normalItem;
         switch (item.name) {
             case "Sulfuras, Hand of Ragnaros" -> {
-                SulfurasItem sulfurasItem = new SulfurasItem(item);
-                sulfurasItem.updateQuality();
+                normalItem = new SulfurasItem(item);;
             }
             case "Backstage passes to a TAFKAL80ETC concert" -> {
-                BackStagePassItem backStagePassItem = new BackStagePassItem(item);
-                backStagePassItem.updateQuality();
-                break;
+                normalItem = new BackStagePassItem(item);
             }
             case "Aged Brie" -> {
-                AgedBrieItem agedBrieItem = new AgedBrieItem(item);
-                agedBrieItem.updateQuality();
-                break;
+                normalItem = new AgedBrieItem(item);
             }
             default -> {
-                NormalItem normalItem = new NormalItem(item);
-                normalItem.updateQuality();
-                break;
+                normalItem = new NormalItem(item);
             }
         }
-    }
-
-    public void manageTimePassing(Item item) {
-        if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            return;
-        }
-        item.sellIn -= 1;
+        return  normalItem;
     }
 }

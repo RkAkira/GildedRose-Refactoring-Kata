@@ -11,4 +11,9 @@ public class SulfurasItem extends NormalItem {
     public void updateQuality() {
         return;
     }
+
+    @Override
+    public void manageTimePassing() {
+        return;
+    }
 }

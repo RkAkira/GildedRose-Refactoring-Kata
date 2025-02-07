@@ -11,6 +11,7 @@ class GildedRoseTest {
         Item[] items = new Item[]{
                 new Item("foo", 0, 15)};
 
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
@@ -106,29 +107,6 @@ class GildedRoseTest {
         app.updateQuality();
 
         assertEquals(7, app.items[0].quality, "Incorrect quality for the Backstage passes Item");
-    }
-
-    @Test
-    void testManageTimePassing(){
-        Item[] items = new Item[]{
-            new Item("foo", 10, 2),
-            new Item("Aged Brie", 5,3),
-            new Item("Sulfuras, Hand of Ragnaros", 0,10),
-            new Item("Backstage passes to a TAFKAL80ETC concert", 10,5)};
-
-        GildedRose app = new GildedRose(items);
-        app.manageTimePassing(items[0]);
-        app.manageTimePassing(items[1]);
-        app.manageTimePassing(items[2]);
-        app.manageTimePassing(items[3]);
-
-        assertEquals(9,app.items[0].sellIn, "Incorrect sellIn for a normal Item");
-        assertEquals(4, app.items[1].sellIn, "Incorrect sellIn for a the Aged Brie Item");
-        assertEquals(0, app.items[2].sellIn, "Incorrect sellIn for the Sulfura Item");
-        assertEquals(9, app.items[3].sellIn, "Incorrect sellIn for the Backstage passes Item");
-
-
-
     }
 
 

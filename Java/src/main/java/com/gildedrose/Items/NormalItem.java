@@ -47,4 +47,8 @@ public class NormalItem  {
     public String toString() {
         return item.toString();
     }
+
+    public void manageTimePassing() {
+        item.sellIn -= 1;
+    }
 }
