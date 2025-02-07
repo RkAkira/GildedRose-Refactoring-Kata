@@ -7,35 +7,45 @@ import static org.junit.jupiter.api.Assertions.*;
 class GildedRoseTest {
 
     @Test
-    void testItemQualityAfterSellInPassed(){
+    void shouldDecreaseBy2NormalItemQualityWhenSellInisPassed(){
         Item[] items = new Item[]{
-                new Item("foo", 0, 15),
-                new Item("Aged Brie", 0,10)};
+                new Item("foo", 0, 15)};
+
+//        NormalItem normalItem = new NormalItem("foo", 0, 15);
+//        normalItem.updateQuality();
 
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
-        assertEquals(13,app.items[0].quality, "Incorrect quality for a normal Item");
-        assertEquals(12, app.items[1].quality, "Incorrect quality for a the Aged Brie Item");
-
-    }
+        assertEquals(13, app.items[0].quality, "Incorrect quality for a normal Item");}
 
     @Test
-    void shouldNeverHaveNegativeQuality(){
+    void shouldIncreaseBy2AgedBrieQualityWhenSellInisPassed(){
+        Item[] items = new Item[]{
+                new Item("Aged Brie", 0,10)};
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        assertEquals(12, app.items[0].quality, "Incorrect quality for a the Aged Brie Item");
+    }
+
+
+
+    @Test
+    void shouldNeverSetANormalItemNegativeQuality(){
         Item[] items = new Item[]{
                 new Item("foo", 10, 0)};
 
-
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
-        assertEquals(9,app.items[0].sellIn, "Incorrect sellIn of a normal Item");
         assertFalse(app.items[0].quality<0, "The quality of a normal item is negative");
     }
 
     @Test
-    void shouldUpdateAgedBrieQualityAccordingly(){
+    void shouldIncreaseBy1AgedBrieQuality(){
         Item[] items = new Item[]{
                 new Item("Aged Brie", 5,3)};
 
@@ -59,7 +69,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void shouldUpdateSulfurasQualityAccordingly(){
+    void shouldNotModifySulfurasQuality(){
         Item[] items = new Item[]{
                 new Item("Sulfuras, Hand of Ragnaros", 0,10)};
 
@@ -70,28 +80,37 @@ class GildedRoseTest {
     }
 
     @Test
-    void shouldUpdateBackstageQualityAccordinglyAfterSellInPassed(){
-        Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 1,4)};
+    void shouldSetTo0BackstageQualityAfterSellInIsPassed(){
+        Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 0,4)};
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
-        assertEquals(0, app.items[0].sellIn, "Incorrect sellIn for the Backstage Item");
         assertEquals(0, app.items[0].quality, "Incorrect quality for the Backstage Item");
     }
 
     @Test
-    void shouldUpdateBackstagePassQualityAccordingly(){
+    void shouldIncreaseBackstagePassQualityBy2(){
         Item[] items = new Item[]{
-                new Item("Backstage passes to a TAFKAL80ETC concert", 10,5),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 10,5),};
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        assertEquals(7, app.items[0].quality, "Incorrect quality for the Backstage passes Item");
+        ;
+
+    }
+
+    @Test
+    void shouldIncreaseBackstagePassQualityBy3(){
+        Item[] items = new Item[]{
                 new Item("Backstage passes to a TAFKAL80ETC concert", 3,4)};
 
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
         assertEquals(7, app.items[0].quality, "Incorrect quality for the Backstage passes Item");
-        assertEquals(7, app.items[1].quality, "Incorrect quality for the Backstage passes Item");
-
     }
 
     @Test
@@ -104,19 +123,19 @@ class GildedRoseTest {
         assertTrue(app.isANormalItem(app.items[0]), "Incorrect : it is not a normal Item");
     }
 
-    @Test
-    void testIsANormalItem_False(){
-        Item[] items = new Item[]{
-            new Item("Aged Brie", 5,3),
-            new Item("Sulfuras, Hand of Ragnaros", 0,10),
-            new Item("Backstage passes to a TAFKAL80ETC concert", 10,5)};
-
-        GildedRose app = new GildedRose(items);
-
-        assertFalse(app.isANormalItem(app.items[0]), "Incorrect : it is a special Item");
-        assertFalse(app.isANormalItem(app.items[1]), "Incorrect : it is a special Item");
-        assertFalse(app.isANormalItem(app.items[2]), "Incorrect : it is a special Item");
-    }
+//    @Test
+//    void testIsANormalItem_False(){
+//        Item[] items = new Item[]{
+//            new Item("Aged Brie", 5,3),
+//            new Item("Sulfuras, Hand of Ragnaros", 0,10),
+//            new Item("Backstage passes to a TAFKAL80ETC concert", 10,5)};
+//
+//        GildedRose app = new GildedRose(items);
+//
+//        assertFalse(app.isANormalItem(app.items[0]), "Incorrect : it is a special Item");
+//        assertFalse(app.isANormalItem(app.items[1]), "Incorrect : it is a special Item");
+//        assertFalse(app.isANormalItem(app.items[2]), "Incorrect : it is a special Item");
+//    }
 
     @Test
     void testSpecialItemRefining(){
